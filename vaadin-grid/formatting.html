@@ -1,0 +1,84 @@
+---
+title: Formating Data
+order: 5
+layout: page
+---
+
+  <script src="../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+  <link rel="import" href="common.html">
+
+
+  <section>
+    <h3 id="inline_formatted_data">Inline Formatted Data</h3>
+    <p>Any regular HTML can be placed inside the grid cells with the DOM api.</p>
+    <code-example source>
+      <vaadin-grid demo>
+        <table>
+          <colgroup>
+            <col header-text="Name">
+            <col header-text="Value">
+            <col header-text="Progress">
+          </colgroup>
+          <tbody>
+            <tr>
+              <td>Project A</td>
+              <td>10 000€</td>
+              <td><progress value="0.8" /></td>
+            </tr>
+            <tr>
+              <td>Project B</td>
+              <td>982 999€</td>
+              <td><progress value="0.2" /></td>
+            </tr>
+          </tbody>
+        </table>
+      </vaadin-grid>
+    </code-example>
+  </section>
+
+  <section>
+    <h3 id="defining_data_renderers">Defining Data Renderers</h3>
+    <p>Column data can be presented in any format using a renderer function.</p>
+    <code-example source>
+      <vaadin-grid demo>
+        <table>
+          <colgroup>
+            <col header-text="Name">
+            <col header-text="Value">
+            <col header-text="Progress">
+          </colgroup>
+          <tbody>
+            <tr>
+              <td>Project A</td><td>10 000</td><td>0.8</td>
+            </tr>
+            <tr>
+              <td>Project B</td><td>982 999</td><td>0.2</td>
+            </tr>
+          </tbody>
+        </table>
+      </vaadin-grid>
+      <code demo-var="grid">
+        var grid = grid || document.querySelector("vaadin-grid");
+
+        HTMLImports.whenReady(function() {
+          // code
+          var currencyRenderer = function(cell) {
+            cell.element.innerHTML = '$' + cell.data;
+          };
+
+          var progressRenderer = function(cell) {
+            cell.element.innerHTML = '';
+            var child = document.createElement('progress');
+            child.setAttribute('value', cell.data);
+            cell.element.appendChild(child);
+          };
+
+          grid.columns[1].renderer = currencyRenderer;
+          grid.columns[2].renderer = progressRenderer;
+          // end-code
+        });
+      </code>
+    </code-example>
+  </section>
+
+
